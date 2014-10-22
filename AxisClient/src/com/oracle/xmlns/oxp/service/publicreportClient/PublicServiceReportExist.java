@@ -8,14 +8,17 @@ import java.rmi.RemoteException;
 import javax.activation.DataHandler;
 
 import org.apache.axis2.AxisFault;
+//import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.oracle.xmlns.oxp.service.publicreportservice.AccessDeniedException;
 import com.oracle.xmlns.oxp.service.publicreportservice.InvalidParametersException;
 import com.oracle.xmlns.oxp.service.publicreportservice.IsReportExist;
 import com.oracle.xmlns.oxp.service.publicreportservice.IsReportExistResponse;
 import com.oracle.xmlns.oxp.service.publicreportservice.OperationFailedException;
+import com.oracle.xmlns.oxp.service.publicreportservice.PublicReportServiceService;
 import com.oracle.xmlns.oxp.service.publicreportservice.PublicReportServiceServiceStub;
-import com.oracle.xmlns.oxp.service.publicreportservice.ReportRequest;
 import com.oracle.xmlns.oxp.service.publicreportservice.ReportResponse;
 import com.oracle.xmlns.oxp.service.publicreportservice.RunReport;
 import com.oracle.xmlns.oxp.service.publicreportservice.RunReportResponse;
@@ -24,36 +27,26 @@ public class PublicServiceReportExist {
 
 	public static void main(String[] args) throws AxisFault, FileNotFoundException, RemoteException {
 		try {
-			PublicReportServiceServiceStub stub = new PublicReportServiceServiceStub();
-			
-			IsReportExist isReportExist = new IsReportExist();
-			isReportExist.setPassword("Administrator");
-			isReportExist.setUserID("Administrator");
-			isReportExist.setReportAbsolutePath("/Quantum/MDR/LillyMDR/DVS_Report/DVS_Report.xdo");
-			 IsReportExistResponse isReportExistResponse =  stub.isReportExist(isReportExist);
+			PublicReportServiceService stub = new PublicReportServiceServiceStub();
+			//ApplicationContext context = (ConfigurableApplicationContext)new ClassPathXmlApplicationContext("applicationContext.xml");
+			ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+			IsReportExist isReportExist = (IsReportExist) context.getBean("isReportExistDVSReport");
+			//System.out.println("THe user name from property file is "+isReportExist.getUserID() );
+			//System.out.println("THe pwd from property file is "+isReportExist.getPassword() );
+			 IsReportExistResponse isReportExistResponse =  stub.isReportExist(isReportExist); 
 			 Boolean isReport_Exist = isReportExistResponse.getIsReportExistReturn();
 			System.out.println("The report exists is "+isReport_Exist.booleanValue()); 
 			if(isReport_Exist.booleanValue()){
-			ReportRequest reportRequest = new ReportRequest();
-			reportRequest.setReportAbsolutePath("/Quantum/MDR/LillyMDR/DVS_Report/DVS_Report.xdo");;
-			reportRequest.setAttributeTemplate("Simple");
-			//reportRequest.setAttributeFormat("pdf");
-			reportRequest.setAttributeLocale("en-US");
-			reportRequest.setSizeOfDataChunkDownload(10000);
 			
+			RunReport  runReport  = (RunReport) context.getBean("runreportDVSReport");
 			
-			ReportResponse reportResponse = new ReportResponse();
-			RunReport  runReport = new RunReport();
-			runReport.setReportRequest(reportRequest);
-			runReport.setPassword("password32");
-			runReport.setUserID("testuser32");
 			RunReportResponse runReportResponse = stub.runReport(runReport);
-			reportResponse =runReportResponse.getRunReportReturn();
+			ReportResponse reportResponse =runReportResponse.getRunReportReturn();
 			String reportFileID =  reportResponse.getReportFileID();
 			String contentype =  reportResponse.getReportContentType();
-			//byte[] reportBytes = reportResponse.getReportBytes();
+			
 			DataHandler dataHandler = reportResponse.getReportBytes();
-			//FileOutputStream fos = new FileOutputStream("FromBIPub.xls");
+			
 			FileOutputStream fos = new FileOutputStream("FromBIPub.vnd.ms-excel");
 			dataHandler.writeTo(fos);
 			fos.close();
@@ -65,6 +58,7 @@ public class PublicServiceReportExist {
 			else{
 				System.out.println("The reqested file does not exist ");
 			}
+			((ClassPathXmlApplicationContext) context).close();
 		} catch (AccessDeniedException | InvalidParametersException | OperationFailedException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
