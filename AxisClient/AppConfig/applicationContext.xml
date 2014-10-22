@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ 
+	<bean id="stubReadPdf" class="com.oracle.xmlns.oxp.service.publicreportservice.PublicReportServiceService">
+		<property name="login" >
+			<ref bean="loginBean"/>
+		</property>
+	</bean>
+	
+	<bean id="isReportExist" class="com.oracle.xmlns.oxp.service.publicreportservice.IsReportExist">
+		<property name="localUserID"  value = "testuser32" />
+		<property name="localPassword"  value = "password32" />
+		<property name="localReportAbsolutePath" value = "/Quantum/MDR/LillyMDR/CRF_Visualization_Report/CRF_Visualization_Report.xdo" />
+		
+	</bean>
+	
+	<bean id="loginBean" class="com.veer.springcore.springcore.Login">
+		<property name="userName"  value = "Administrator" />
+		<property name="password"  value = "Secret" />
+		
+	</bean>
+ 
+</beans>
