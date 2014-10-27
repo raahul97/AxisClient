@@ -8,7 +8,7 @@
 			<ref bean="loginBean"/>
 		</property>
 	</bean> -->
-	
+	<!-- DVR Bean -->
 	 <bean id="runreportDVSReport" class="com.oracle.xmlns.oxp.service.publicreportservice.RunReport">
 		<property name="reportRequest" >
 			<ref bean="reportRequestDVSReport"/>
@@ -19,9 +19,30 @@
 		<property name="password"  value = "${biPub.password}" />
 	</bean> 
 	
+	<bean id="isReportExistDVSReport" class="com.oracle.xmlns.oxp.service.publicreportservice.IsReportExist">
+		
+		<!-- <property name="userID"  value = "testuser32" />
+		<property name="password"  value = "password32" /> -->
+		<property name="userID"  value = "${biPub.userID}" />
+		<property name="password"  value = "${biPub.password}" />
+		<property name = "ReportAbsolutePath" value = "${biPub.absolutePath.DVSReport}" />
+		
+	</bean>
+	
+		<bean id="reportRequestDVSReport" class="com.oracle.xmlns.oxp.service.publicreportservice.ReportRequest">
+		
+		<property name="attributeLocale"  value = "en-US" />
+		<property name="attributeTemplate"  value = "Simple" />
+		<property name = "ReportAbsolutePath" value = "${biPub.absolutePath.DVSReport}" />
+		<property name = "SizeOfDataChunkDownload" value = "10000" />
+		
+	</bean>
+	<!-- DVR Bean -->
+	
+	<!-- CRFVisualization Bean -->
 	<bean id="runreport" class="com.oracle.xmlns.oxp.service.publicreportservice.RunReport">
 		<property name="reportRequest" >
-			<ref bean="reportRequestDVSReport"/>
+			<ref bean="reportRequest"/>
 		</property>
 		<!-- <property name="userID"  value = "testuser32" />
 		<property name="password"  value = "password32" /> -->
@@ -39,15 +60,7 @@
 		
 	</bean>
 	
-	<bean id="isReportExistDVSReport" class="com.oracle.xmlns.oxp.service.publicreportservice.IsReportExist">
-		
-		<!-- <property name="userID"  value = "testuser32" />
-		<property name="password"  value = "password32" /> -->
-		<property name="userID"  value = "${biPub.userID}" />
-		<property name="password"  value = "${biPub.password}" />
-		<property name = "ReportAbsolutePath" value = "${biPub.absolutePath.DVSReport}" />
-		
-	</bean>
+	
 	
 	<bean id="reportRequest" class="com.oracle.xmlns.oxp.service.publicreportservice.ReportRequest">
 		
@@ -57,25 +70,59 @@
 		<property name = "SizeOfDataChunkDownload" value = "10000" />
 		
 	</bean>
+	<!-- CRFVisualization Bean -->
+
+	<!-- HTML Report Read -->
+	  <bean id="runreportTabular" class="com.oracle.xmlns.oxp.service.publicreportservice.RunReport">
+		<property name="reportRequest" >
+			<ref bean="reportRequestTabular"/>
+		</property>
+		<!-- <property name="userID"  value = "testuser32" />
+		<property name="password"  value = "password32" /> -->
+		<property name="userID"  value = "${biPub.userID}" />
+		<property name="password"  value = "${biPub.password}" />
+	</bean> 
 	
-	<bean id="reportRequestDVSReport" class="com.oracle.xmlns.oxp.service.publicreportservice.ReportRequest">
+	<bean id="isReportExistTabular" class="com.oracle.xmlns.oxp.service.publicreportservice.IsReportExist">
 		
-		<property name="attributeLocale"  value = "en-US" />
-		<property name="attributeTemplate"  value = "Simple" />
-		<property name = "ReportAbsolutePath" value = "${biPub.absolutePath.DVSReport}" />
+		<!-- <property name="userID"  value = "testuser32" />
+		<property name="password"  value = "password32" /> -->
+		<property name="userID"  value = "${biPub.userID}" />
+		<property name="password"  value = "${biPub.password}" />
+		<property name = "ReportAbsolutePath" value = "${TabularFormHtmlReport}" />
+		
+	</bean>
+	
+	
+	
+	<bean id="reportRequestTabular" class="com.oracle.xmlns.oxp.service.publicreportservice.ReportRequest">
+		
+	<!--	<property name="attributeLocale"  value = "en-US" />
+		<property name="attributeTemplate"  value = "Simple" />-->
+		<property name = "ReportAbsolutePath" value = "${TabularFormHtmlReport}" />
 		<property name = "SizeOfDataChunkDownload" value = "10000" />
 		
 	</bean>
 	
+	<!-- HTML Report Read -->
 	<!-- 
 	<bean id="loginBean" class="com.veer.springcore.springcore.Login">
 		<property name="userName"  value = "Administrator" />
 		<property name="password"  value = "Secret" />
 		
 	</bean> -->
+	<!-- Property File Configuration Bean -->
    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
       <property name="locations">
           <value>file:C:/Users/rahul.kumar.rajendra/props/AxisClient.properties</value> 
      </property> 
    </bean>
+   <!-- Property File Configuration Bean -->
+   
+   <!-- Reciever Bean -->
+   <bean id="CRFVisualizationReportBean" class="com.oracle.xmlns.oxp.service.publicreportClient.PublicServiceReportPdfRead"/>
+   <bean id="tabularReportBean" class="com.oracle.xmlns.oxp.service.publicreportClient.PublicServiceReportHtmlRead"/>
+   <bean id="DVSReportBean" class="com.oracle.xmlns.oxp.service.publicreportClient.PublicServiceReportExist"/>
+   
+    <!-- Reciever Bean -->
 </beans>
