@@ -8,10 +8,15 @@ import java.rmi.RemoteException;
 import javax.activation.DataHandler;
 
 import org.apache.axis2.AxisFault;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.oracle.xmlns.oxp.service.Interface.PublicReportReadReports;
+import com.oracle.xmlns.oxp.service.DataObjects.UserDetails;
 import com.oracle.xmlns.oxp.service.publicreportservice.AccessDeniedException;
 import com.oracle.xmlns.oxp.service.publicreportservice.InvalidParametersException;
 import com.oracle.xmlns.oxp.service.publicreportservice.IsReportExist;
@@ -23,7 +28,7 @@ import com.oracle.xmlns.oxp.service.publicreportservice.ReportResponse;
 import com.oracle.xmlns.oxp.service.publicreportservice.RunReport;
 import com.oracle.xmlns.oxp.service.publicreportservice.RunReportResponse;
 
-public class PublicServiceReportHtmlRead  implements PublicReportReadReports  {
+public class PublicServiceReportHtmlRead  implements BeanFactoryPostProcessor   {
 
 	public static void main(String[] args) throws AxisFault, FileNotFoundException, RemoteException {
 
@@ -67,10 +72,22 @@ public class PublicServiceReportHtmlRead  implements PublicReportReadReports  {
 				}
 				
 				((ClassPathXmlApplicationContext) context).close();
-			} catch (AccessDeniedException | InvalidParametersException | OperationFailedException | IOException e) {
-				
+			} catch (AccessDeniedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			 catch (InvalidParametersException  e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 catch (OperationFailedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 			
 			
@@ -82,18 +99,22 @@ public class PublicServiceReportHtmlRead  implements PublicReportReadReports  {
 
 
 
-	@Override
-	public void readreports() {
+	
+	public void readreports(UserDetails userDetails) {
 
 
 		
 		
 		try {
 			
+			
 			PublicReportServiceService stub = new PublicReportServiceServiceStub();
 			
 			
 			ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+			UserDetails userbean = (UserDetails) context.getBean("userDetails");
+			userbean.setPassword(userDetails.getPassword());
+			userbean.setUserId(userDetails.getUserId());
 			IsReportExist isReportExist = (IsReportExist) context.getBean("isReportExistTabular");
 			
 			 IsReportExistResponse isReportExistResponse =  stub.isReportExist(isReportExist);
@@ -125,13 +146,46 @@ public class PublicServiceReportHtmlRead  implements PublicReportReadReports  {
 			}
 			
 			((ClassPathXmlApplicationContext) context).close();
-		} catch (AccessDeniedException | InvalidParametersException | OperationFailedException | IOException e) {
-			
+		} catch (AccessDeniedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		 catch (InvalidParametersException  e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 catch (OperationFailedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		 catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 		
 		
+		
+	}
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+	@Override
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory arg0)
+			throws BeansException {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -64,10 +64,22 @@ public class PublicServiceReportPdfRead implements PublicReportReadReports {
 				}
 				
 				((ClassPathXmlApplicationContext) context).close();
-			} catch (AccessDeniedException | InvalidParametersException | OperationFailedException | IOException e) {
-				
+			} catch (AccessDeniedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			 catch (InvalidParametersException  e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 catch (OperationFailedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 			
 			
@@ -113,10 +125,22 @@ public class PublicServiceReportPdfRead implements PublicReportReadReports {
 				}
 				
 				((ClassPathXmlApplicationContext) context).close();
-			} catch (AccessDeniedException | InvalidParametersException | OperationFailedException | IOException e) {
-				
+			} catch (AccessDeniedException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			 catch (InvalidParametersException  e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 catch (OperationFailedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			 catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 			finally{
 				System.out.println("Leaving the Class PublicServiceReportPdfRead");

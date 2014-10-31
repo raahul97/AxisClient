@@ -25,10 +25,15 @@ public class PublicServiceLogin {
 			System.out.println("Login Return is "+loginReturn);
 			System.out.println("Hello");
 			
-		} catch (AccessDeniedException |RemoteException e) {
+		 }catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		catch (AccessDeniedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 
 	}
 

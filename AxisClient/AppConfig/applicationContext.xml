@@ -79,16 +79,23 @@
 		</property>
 		<!-- <property name="userID"  value = "testuser32" />
 		<property name="password"  value = "password32" /> -->
-		<property name="userID"  value = "${biPub.userID}" />
-		<property name="password"  value = "${biPub.password}" />
+		<!-- <property name="userID"  value = "${biPub.userID}" />
+		<property name="password"  value = "${biPub.password}" /> -->
+		
+		<property name="userID"  value = "#{userDetails.userId}" />
+		<property name="password"  value = "#{userDetails.password}" />
+		
 	</bean> 
 	
 	<bean id="isReportExistTabular" class="com.oracle.xmlns.oxp.service.publicreportservice.IsReportExist">
 		
 		<!-- <property name="userID"  value = "testuser32" />
 		<property name="password"  value = "password32" /> -->
-		<property name="userID"  value = "${biPub.userID}" />
-		<property name="password"  value = "${biPub.password}" />
+		<!-- <property name="userID"  value = "${biPub.userID}" />
+		<property name="password"  value = "${biPub.password}" /> -->
+		
+		<property name="userID"  value = "#{userDetails.userId}" />
+		<property name="password"  value = "#{userDetails.password}" />
 		<property name = "ReportAbsolutePath" value = "${TabularFormHtmlReport}" />
 		
 	</bean>
@@ -123,6 +130,10 @@
    <bean id="CRFVisualizationReportBean" class="com.oracle.xmlns.oxp.service.publicreportClient.PublicServiceReportPdfRead"/>
    <bean id="tabularReportBean" class="com.oracle.xmlns.oxp.service.publicreportClient.PublicServiceReportHtmlRead"/>
    <bean id="DVSReportBean" class="com.oracle.xmlns.oxp.service.publicreportClient.PublicServiceReportExist"/>
+   <bean id ="userDetails" class="com.oracle.xmlns.oxp.service.DataObjects.UserDetails">
+        <property name="userId"  value = "testuser32" />
+		<property name="password"  value = "password32" />
+   </bean>
    
     <!-- Reciever Bean -->
 </beans>
